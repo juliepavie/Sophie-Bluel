@@ -5,14 +5,13 @@ console.log(galerie);
 
 let allProjects = [];
 
-fetch("http://localhost:5678/api/works")
-    .then(function (response) {
-        return response.json();
-    })
+getProjects()
+
     .then(function (projects) {
         displayProjects(projects);
         allProjects = projects;
     })
+
     .catch(function (error) {
         console.error("impossible de récupérer les projets :", error);
     });
@@ -53,10 +52,8 @@ allButton.addEventListener("click", function () {
 
 });
 
-fetch("http://localhost:5678/api/categories")
-    .then(function (response) {
-        return response.json();
-    })
+getCategories()
+
     .then(function (categories) {
         categories.forEach(function (category) {
             const button = document.createElement("button");
@@ -64,7 +61,7 @@ fetch("http://localhost:5678/api/categories")
             button.textContent = category.name;
             button.addEventListener("click", function () {
                 setActiveButton(button);
-                
+
                 const filteredProjects = allProjects.filter(function (project) {
                     return project.categoryId === category.id;
                 });
