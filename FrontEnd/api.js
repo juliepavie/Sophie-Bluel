@@ -5,7 +5,7 @@ function getProjects() {
         .then(function (response) {
             return response.json();
         });
-    }
+}
 
 
 function getCategories() {
@@ -13,4 +13,16 @@ function getCategories() {
         .then(function (response) {
             return response.json();
         });
-    }
+}
+
+
+
+function loginUser(email, password) {
+    return fetch(API_URL + "/users/login", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify({ email, password })
+    });
+}   
