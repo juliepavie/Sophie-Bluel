@@ -9,15 +9,20 @@
 	<link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=Work+Sans&display=swap" rel="stylesheet">
 	<meta name="description" content="">
 	<link rel="stylesheet" href="./assets/style.css">
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
 </head>
 <body>
+	<div class="auth-banner" hidden>
+		<i class="fa-regular fa-pen-to-square" aria-hidden="true"></i>Mode édition
+	</div>
+	
 <header>
 	<h1>Sophie Bluel <span>Architecte d'intérieur</span></h1>
 	<nav>
 		<ul>
 			<li>projets</li>
 			<li>contact</li>
-			<li>login</li>
+			<li><a href="./login.html" class="auth-link">login</a></li>
 			<li><img src="./assets/icons/instagram.png" alt="Instagram"></li>
 		</ul>
 	</nav>
@@ -35,7 +40,11 @@
 		</article>
 	</section>
 	<section id="portfolio">
-		<h2>Mes Projets</h2>
+		<div class="portfolio-heading">
+			<h2>Mes Projets</h2>
+			<button type="button" class="edit-projects" hidden>
+				<i class="fa-regular fa-pen-to-square" aria-hidden="true"></i>modifier
+		</div>
 		<div class="filters"></div>
 		<div class="gallery"></div>
 	</section>

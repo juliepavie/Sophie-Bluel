@@ -1,4 +1,8 @@
+const token = localStorage.getItem("token");
+
 console.log("script.js loaded");
+
+
 
 const galerie = document.querySelector(".gallery");
 console.log(galerie);
@@ -82,3 +86,24 @@ function setActiveButton(selectedButton) {
     });
     selectedButton.classList.add("active");
 }
+
+
+if (token) {
+    const filtersContainer = document.querySelector(".filters");
+    filtersContainer.style.display = "none";
+
+    const authLink= document.querySelector(".auth-link");
+    authLink.textContent = "logout";
+
+    authLink.addEventListener("click", function (event) {
+        event.preventDefault();
+        localStorage.removeItem("token");
+        window.location.href = "./index.html";
+    });
+
+    const authBanner = document.querySelector(".auth-banner");
+    authBanner.hidden = false;
+
+    const editProjects = document.querySelector(".edit-projects");
+    editProjects.hidden = false;
+}   
