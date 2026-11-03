@@ -92,7 +92,7 @@ if (token) {
     const filtersContainer = document.querySelector(".filters");
     filtersContainer.style.display = "none";
 
-    const authLink= document.querySelector(".auth-link");
+    const authLink = document.querySelector(".auth-link");
     authLink.textContent = "logout";
 
     authLink.addEventListener("click", function (event) {
@@ -106,4 +106,33 @@ if (token) {
 
     const editProjects = document.querySelector(".edit-projects");
     editProjects.hidden = false;
+
+
+    const projectsModal = document.querySelector(".projects-modal");
+
+    editProjects.addEventListener("click", function () {
+        const modalGallery = document.querySelector(".modal-gallery");
+        modalGallery.replaceChildren();
+
+        allProjects.forEach(function (project) {
+            const image = document.createElement("img");
+            image.src = project.imageUrl;
+            image.alt = project.title;
+            modalGallery.appendChild(image);
+        });
+        
+        projectsModal.showModal();
+    });
+
+
+    const closeModalButton = document.querySelector(".close-modal");
+
+    closeModalButton.addEventListener("click", function () {
+        projectsModal.close();
+    });
+
+
+
+
+
 }   
