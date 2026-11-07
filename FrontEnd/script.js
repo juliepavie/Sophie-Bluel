@@ -41,44 +41,50 @@ function displayProjects(projects) {
 
     });
 }
+//
+const filters = document.createElement("div");
+filters.classList.add("filters");
 
-const filters = document.querySelector(".filters");
+function filtersCategories() {
+    const portfolio = document.querySelector("#portfolio");
+    const allButton = document.createElement("button");
+    portfolio.insertBefore(filters, portfolio.children[1]);
+    allButton.type = "button";
+    allButton.textContent = "Tous";
+    allButton.classList.add("active");
 
-const allButton = document.createElement("button");
-allButton.type = "button";
-allButton.textContent = "Tous";
-allButton.classList.add("active");
+    filters.appendChild(allButton);
+    allButton.addEventListener("click", function () {
+        setActiveButton(allButton);
+        displayProjects(allProjects);
 
-filters.appendChild(allButton);
-allButton.addEventListener("click", function () {
-    setActiveButton(allButton);
-    displayProjects(allProjects);
-
-});
-
-getCategories()
-
-    .then(function (categories) {
-        categories.forEach(function (category) {
-            const button = document.createElement("button");
-            button.type = "button";
-            button.textContent = category.name;
-            button.addEventListener("click", function () {
-                setActiveButton(button);
-
-                const filteredProjects = allProjects.filter(function (project) {
-                    return project.categoryId === category.id;
-                });
-                displayProjects(filteredProjects);
-
-            });
-            filters.appendChild(button);
-        });
-    })
-
-    .catch(function (error) {
-        console.error("impossible de récupérer les catégories :", error);
     });
+
+    getCategories()
+
+        .then(function (categories) {
+            categories.forEach(function (category) {
+                const button = document.createElement("button");
+                button.type = "button";
+                button.textContent = category.name;
+                button.addEventListener("click", function () {
+                    setActiveButton(button);
+
+                    const filteredProjects = allProjects.filter(function (project) {
+                        return project.categoryId === category.id;
+                    });
+                    displayProjects(filteredProjects);
+
+                });
+                filters.appendChild(button);
+            });
+        })
+
+        .catch(function (error) {
+            console.error("impossible de récupérer les catégories :", error);
+        });
+}
+
 
 function setActiveButton(selectedButton) {
     filters.querySelectorAll("button").forEach(function (button) {
@@ -89,8 +95,6 @@ function setActiveButton(selectedButton) {
 
 
 if (token) {
-    const filtersContainer = document.querySelector(".filters");
-    filtersContainer.style.display = "none";
 
     const authLink = document.querySelector(".auth-link");
     authLink.textContent = "logout";
@@ -120,7 +124,7 @@ if (token) {
             image.alt = project.title;
             modalGallery.appendChild(image);
         });
-        
+
         projectsModal.showModal();
     });
 
@@ -131,8 +135,16 @@ if (token) {
         projectsModal.close();
     });
 
+} else {
+    filtersCategories();
+
+}
 
 
 
 
-}   
+
+
+
+
+
