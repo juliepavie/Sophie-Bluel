@@ -114,26 +114,161 @@ if (token) {
 
     const projectsModal = document.querySelector(".projects-modal");
 
-    editProjects.addEventListener("click", function () {
-        const modalGallery = document.querySelector(".modal-gallery");
-        modalGallery.replaceChildren();
+    const modalContent = projectsModal.querySelector(".modal-content");
 
-        allProjects.forEach(function (project) {
-            const image = document.createElement("img");
-            image.src = project.imageUrl;
-            image.alt = project.title;
-            modalGallery.appendChild(image);
+    function displayModalGallery() {
+        modalContent.replaceChildren();
+
+        projectsModal.querySelector("h2").textContent = "Galerie photo";
+
+
+    const modalGallery = document.createElement("div");
+    modalGallery.classList.add("modal-gallery");
+
+    const addPhotoButton = document.createElement("button");
+    addPhotoButton.type = "button";
+    addPhotoButton.classList.add("add-photo");
+    addPhotoButton.textContent = "Ajouter une photo";
+    addPhotoButton.addEventListener("click", function () {
+        displayAddProjectForm();
+    });
+
+
+    allProjects.forEach(function (project) {
+        const image = document.createElement("img");
+        image.src = project.imageUrl;
+        image.alt = project.title;
+        modalGallery.appendChild(image);
+    });
+
+    modalContent.appendChild(modalGallery);
+    modalContent.appendChild(addPhotoButton);
+}
+
+function displayAddProjectForm() {
+    modalContent.replaceChildren();
+    projectsModal.querySelector("h2").textContent = "Ajout photo";
+
+    const backButton = document.createElement("button");
+    backButton.type = "button";
+    backButton.classList.add("back-modal");
+    backButton.setAttribute("aria-label", "Retour à la galerie");
+
+    const backIcon = document.createElement("i");
+    backIcon.classList.add("fa-solid", "fa-arrow-left");
+    backIcon.setAttribute("aria-hidden", "true");
+
+    backButton.appendChild(backIcon);
+
+    backButton.addEventListener("click", function () {
+        displayModalGallery();
+    });
+
+    modalContent.appendChild(backButton);
+
+    const form = document.createElement("form");
+    form.classList.add("add-project-form");
+
+    const photoLabel = document.createElement("label");
+    photoLabel.classList.add("photo-upload");
+
+    const photoInput = document.createElement("input");
+    photoInput.type = "file";
+    photoInput.accept = "image/jpeg, image/png";
+    photoInput.required = true;
+    photoInput.classList.add("project-image");
+
+    const photoIcon = document.createElement("i");
+    photoIcon.classList.add("fa-regular", "fa-image");
+    photoIcon.setAttribute("aria-hidden", "true");
+
+    photoLabel.appendChild(photoIcon);
+
+    const photoText = document.createElement("span");
+    photoText.textContent = "+ Ajouter une photo";
+    photoText.classList.add("photo-upload-text");
+    
+    photoLabel.appendChild(photoText);
+
+    const photoInfo = document.createElement("span");
+    photoInfo.textContent = "jpg, png : 4mo max";
+    photoInfo.classList.add("photo-upload-info");
+
+    photoLabel.appendChild(photoInfo);
+
+    photoLabel.appendChild(photoInput);
+    form.appendChild(photoLabel);
+
+    //champ titre
+    const titleLabel = document.createElement("label");
+    titleLabel.textContent = "Titre";
+
+    const titleInput = document.createElement("input");
+    titleInput.type = "text";
+    titleInput.required = true;
+    titleInput.classList.add("project-title");
+
+    titleLabel.appendChild(titleInput);
+    form.appendChild(titleLabel);
+
+    //champ catégorie
+    const categoryLabel = document.createElement("label");
+    categoryLabel.textContent = "Catégorie";
+
+    const categorySelect = document.createElement("select");
+    categorySelect.classList.add("project-category");
+    categorySelect.required = true;
+
+    const emptyOption = document.createElement("option");
+    emptyOption.value = "";
+    emptyOption.textContent = "Choisir une catégorie";
+
+    categorySelect.appendChild(emptyOption);
+    categoryLabel.appendChild(categorySelect);
+    form.appendChild(categoryLabel);
+
+    getCategories()
+    .then(function (categories) {
+        categories.forEach(function (category) {
+            const option = document.createElement("option");
+            option.value = category.id;
+            option.textContent = category.name;
+            categorySelect.appendChild(option);
         });
-
-        projectsModal.showModal();
+    })
+    .catch(function (error) {
+        console.error("impossible de récupérer les catégories :", error);
     });
 
+    const submitButton = document.createElement("button");
+    submitButton.type = "submit";
+    submitButton.textContent = "Valider";
+    submitButton.classList.add("validate-project");
+    submitButton.disabled = true;
 
-    const closeModalButton = document.querySelector(".close-modal");
 
-    closeModalButton.addEventListener("click", function () {
-        projectsModal.close();
-    });
+    const separator = document.createElement("hr");
+    separator.classList.add("form-separator");
+
+    form.appendChild(separator);
+
+    form.appendChild(submitButton);
+
+    modalContent.appendChild(form);
+}
+
+editProjects.addEventListener("click", function () {
+    displayModalGallery();
+    projectsModal.showModal();
+
+});
+
+
+const closeModalButton = document.querySelector(".close-modal");
+
+closeModalButton.addEventListener("click", function () {
+    projectsModal.close();
+});
 
 } else {
     filtersCategories();
