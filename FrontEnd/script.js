@@ -41,7 +41,9 @@ function displayProjects(projects) {
 
     });
 }
-//
+
+// Création des boutons de filtre
+
 const filters = document.createElement("div");
 filters.classList.add("filters");
 
@@ -96,6 +98,13 @@ function setActiveButton(selectedButton) {
 
 if (token) {
 
+    const body = document.querySelector("body");
+    const authBanner = document.createElement("div");
+
+    authBanner.classList.add("auth-banner");
+    authBanner.innerHTML = `<i class="fa-regular fa-pen-to-square" aria-hidden="true"></i> Mode édition `;
+    body.insertBefore(authBanner, body.firstChild);
+
     const authLink = document.querySelector(".auth-link");
     authLink.textContent = "logout";
 
@@ -105,11 +114,12 @@ if (token) {
         window.location.href = "./index.html";
     });
 
-    const authBanner = document.querySelector(".auth-banner");
-    authBanner.hidden = false;
+    const portfolioHeading = document.querySelector(".portfolio-heading");
+    const editProjects = document.createElement("button");
 
-    const editProjects = document.querySelector(".edit-projects");
-    editProjects.hidden = false;
+    editProjects.classList.add("edit-projects");
+    portfolioHeading.appendChild(editProjects);
+    editProjects.innerHTML = `<i class="fa-regular fa-pen-to-square" aria-hidden="true"></i> Modifier`;
 
 
     const projectsModal = document.querySelector(".projects-modal");
@@ -129,6 +139,7 @@ if (token) {
     addPhotoButton.type = "button";
     addPhotoButton.classList.add("add-photo");
     addPhotoButton.textContent = "Ajouter une photo";
+
     addPhotoButton.addEventListener("click", function () {
         displayAddProjectForm();
     });
@@ -195,7 +206,6 @@ function displayAddProjectForm() {
     photoInfo.classList.add("photo-upload-info");
 
     photoLabel.appendChild(photoInfo);
-
     photoLabel.appendChild(photoInput);
     form.appendChild(photoLabel);
 
@@ -210,6 +220,8 @@ function displayAddProjectForm() {
 
     titleLabel.appendChild(titleInput);
     form.appendChild(titleLabel);
+
+    modalContent.appendChild(form);
 
     //champ catégorie
     const categoryLabel = document.createElement("label");
@@ -227,6 +239,8 @@ function displayAddProjectForm() {
     categoryLabel.appendChild(categorySelect);
     form.appendChild(categoryLabel);
 
+
+    // Récupération des catégories depuis l'API
     getCategories()
     .then(function (categories) {
         categories.forEach(function (category) {
@@ -240,6 +254,9 @@ function displayAddProjectForm() {
         console.error("impossible de récupérer les catégories :", error);
     });
 
+
+    //bouton valider
+
     const submitButton = document.createElement("button");
     submitButton.type = "submit";
     submitButton.textContent = "Valider";
@@ -250,11 +267,11 @@ function displayAddProjectForm() {
     const separator = document.createElement("hr");
     separator.classList.add("form-separator");
 
+    
     form.appendChild(separator);
-
     form.appendChild(submitButton);
 
-    modalContent.appendChild(form);
+    //
 }
 
 editProjects.addEventListener("click", function () {
@@ -274,6 +291,7 @@ closeModalButton.addEventListener("click", function () {
     filtersCategories();
 
 }
+
 
 
 
