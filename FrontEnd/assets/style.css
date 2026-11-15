@@ -571,3 +571,27 @@ footer nav ul {
 	color: black;
 	cursor: pointer;
 }
+
+
+.modal-project {
+	position: relative;
+}
+
+.delete-project {
+	position: absolute;
+	top: 5px;
+	right: 5px;
+	background-color: black;
+	color: white;
+	border: none;
+	border-radius: 2px;
+	padding: 4px;
+	font-size: 10px;
+	cursor: pointer;
+}
+
+.photo-upload .photo-preview {
+	width: 100%;
+	height: 150px;
+	object-fit: contain;
+}

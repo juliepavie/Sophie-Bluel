@@ -1,5 +1,6 @@
 const API_URL = "http://localhost:5678/api";
 
+
 function getProjects() {
     return fetch(API_URL + "/works")
         .then(function (response) {
@@ -16,6 +17,7 @@ function getCategories() {
 }
 
 
+// Fonction pour se connecter à l'API avec un email et un mot de passe
 
 function loginUser(email, password) {
     return fetch(API_URL + "/users/login", {
@@ -26,3 +28,21 @@ function loginUser(email, password) {
         body: JSON.stringify({ email, password })
     });
 }   
+
+//demande de suppression d'un projet a l'API
+
+function deleteProject(Id, token) {
+    return fetch(API_URL + "/works/" + id, {
+        method: "DELETE",
+        headers: {
+            "Authorization": "Bearer " + token
+
+        }
+    }).then(function (response) {
+        if (!response.ok) {
+            throw new Error("Impossible de supprimer le projet");
+        }
+
+        return response;
+    });
+}
