@@ -595,3 +595,9 @@ footer nav ul {
 	height: 150px;
 	object-fit: contain;
 }
+
+
+.add-project-form .validate-project:enabled {
+	background-color: #1D6154;
+	cursor: pointer;
+}

@@ -341,6 +341,24 @@ if (token) {
         submitButton.disabled = true;
 
 
+        //vérification des champs avant d'activer Valider
+
+        function updateSubmitButton() {
+            const file = photoInput.files[0];
+
+            const validPhoto = file
+                && ["image/jpeg", "image/png"].includes(file.type)
+                && file.size <= 4 * 1024 * 1024;
+
+            const validTitle = titleInput.value.trim() !== "";
+            const validCategory = categorySelect.value !== "";
+
+            submitButton.disabled = !(validPhoto && validTitle && validCategory);
+        }
+
+        form.addEventListener("input", updateSubmitButton);
+        form.addEventListener("change", updateSubmitButton);
+
         const separator = document.createElement("hr");
         separator.classList.add("form-separator");
 
@@ -348,26 +366,58 @@ if (token) {
         form.appendChild(separator);
         form.appendChild(submitButton);
 
-        //
-    }
+
+        //envoie du formulaire pour ajouter un projet
+
+        form.addEventListener("submit", function (event) {
+            event.preventDefault();
+
+            updateSubmitButton();
+
+            if (submitButton.disabled) {
+                return;
+            }
+
+            const formData = new FormData();
+            formData.append("image", photoInput.files[0]);
+            formData.append("title", titleInput.value.trim());
+            formData.append("category", categorySelect.value);
+
+            submitButton.disabled = true;
+
+            addProject(formData, token)
+                .then(function (newProject) {
+                    allProjects.push(newProject);
+                    displayProjects(allProjects);
+                    form.reset();
+                    displayModalGallery();
+                })
+
+                .catch(function (error) {
+                    console.error(error);
+                    alert("Le projet n'a pas pu etre ajouté.");
+                    updateSubmitButton();
+                });
+    });
+ }
 
     editProjects.addEventListener("click", function () {
-        displayModalGallery();
-        projectsModal.showModal();
+            displayModalGallery();
+            projectsModal.showModal();
 
-    });
+        });
 
 
-    const closeModalButton = document.querySelector(".close-modal");
+        const closeModalButton = document.querySelector(".close-modal");
 
-    closeModalButton.addEventListener("click", function () {
-        projectsModal.close();
-    });
+        closeModalButton.addEventListener("click", function () {
+            projectsModal.close();
+        });
 
-} else {
-    filtersCategories();
+    } else {
+        filtersCategories();
 
-}
+    }
 
 
 

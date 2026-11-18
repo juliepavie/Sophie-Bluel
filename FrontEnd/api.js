@@ -27,11 +27,11 @@ function loginUser(email, password) {
         },
         body: JSON.stringify({ email, password })
     });
-}   
+}
 
 //demande de suppression d'un projet a l'API
 
-function deleteProject(Id, token) {
+function deleteProject(id, token) {
     return fetch(API_URL + "/works/" + id, {
         method: "DELETE",
         headers: {
@@ -44,5 +44,24 @@ function deleteProject(Id, token) {
         }
 
         return response;
+    });
+}
+
+
+//envoi d'un nouveau projet a l'API
+
+function addProject(formData, token) {
+    return fetch(API_URL + "/works", {
+        method: "POST",
+        headers: {
+            Authorization: "Bearer " + token
+        },
+        body: formData
+    }).then(function (response) {
+        if (!response.ok) {
+            throw new Error("Impossible d'ajouter le projet");
+        }
+
+        return response.json();
     });
 }
