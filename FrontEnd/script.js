@@ -340,6 +340,14 @@ if (token) {
         submitButton.classList.add("validate-project");
         submitButton.disabled = true;
 
+        //creation du message d'erreur du formulaire
+
+        const formError = document.createElement("p");
+        formError.classList.add("form-error");
+        formError.setAttribute("aria-live", "polite");
+        form.appendChild(formError);
+
+
 
         //vérification des champs avant d'activer Valider
 
@@ -354,7 +362,23 @@ if (token) {
             const validCategory = categorySelect.value !== "";
 
             submitButton.disabled = !(validPhoto && validTitle && validCategory);
+           
+            formError.textContent ="";
+            
+            if (!file) {
+                formError.textContent = "Veuillez sélectionner une photo.";
+            } else if (!["image/jpeg", "image/png"].includes(file.type)) {
+                formError.textContent = "La photo doit être au format JPG ou PNG.";
+            } else if (file.size > 4 * 1024 * 1024) {
+                formError.textContent = "La photo ne doit pas dépasser 4 Mo.";
+            } else if (!validTitle) {
+                formError.textContent = "Veuillez renseigner un titre.";
+            } else if (!validCategory) {
+                formError.textContent = "Veuillez choisir une catégorie.";
+            
         }
+
+    }
 
         form.addEventListener("input", updateSubmitButton);
         form.addEventListener("change", updateSubmitButton);
@@ -415,13 +439,13 @@ if (token) {
     });
 
 
-    
+
     //Fermeture modale au clik exterieur
 
     projectsModal.addEventListener("click", function (event) {
         const bounds = projectsModal.getBoundingClientRect();
 
-     if (
+        if (
             event.clientX < bounds.left ||
             event.clientX > bounds.right ||
             event.clientY < bounds.top ||

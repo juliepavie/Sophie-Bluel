@@ -601,3 +601,8 @@ footer nav ul {
 	background-color: #1D6154;
 	cursor: pointer;
 }
+
+.form-error {
+	color: #b00020;
+	font-size: 14px;
+}
