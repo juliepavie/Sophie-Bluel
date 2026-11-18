@@ -398,26 +398,43 @@ if (token) {
                     alert("Le projet n'a pas pu etre ajouté.");
                     updateSubmitButton();
                 });
-    });
- }
+        });
+    }
 
     editProjects.addEventListener("click", function () {
-            displayModalGallery();
-            projectsModal.showModal();
+        displayModalGallery();
+        projectsModal.showModal();
 
-        });
+    });
 
 
-        const closeModalButton = document.querySelector(".close-modal");
+    const closeModalButton = document.querySelector(".close-modal");
 
-        closeModalButton.addEventListener("click", function () {
+    closeModalButton.addEventListener("click", function () {
+        projectsModal.close();
+    });
+
+
+    
+    //Fermeture modale au clik exterieur
+
+    projectsModal.addEventListener("click", function (event) {
+        const bounds = projectsModal.getBoundingClientRect();
+
+     if (
+            event.clientX < bounds.left ||
+            event.clientX > bounds.right ||
+            event.clientY < bounds.top ||
+            event.clientY > bounds.bottom
+        ) {
             projectsModal.close();
-        });
+        }
+    });
 
-    } else {
-        filtersCategories();
+} else {
+    filtersCategories();
 
-    }
+}
 
 
 
