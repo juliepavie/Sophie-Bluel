@@ -122,9 +122,38 @@ if (token) {
     editProjects.innerHTML = `<i class="fa-regular fa-pen-to-square" aria-hidden="true"></i> Modifier`;
 
 
-    const projectsModal = document.querySelector(".projects-modal");
+    
+// Création de la modale en mode connecté
+const projectsModal = document.createElement("dialog");
+projectsModal.classList.add("projects-modal");
+projectsModal.setAttribute("aria-labelledby", "modal-title");
 
-    const modalContent = projectsModal.querySelector(".modal-content");
+// Création du bouton de fermeture
+const modalCloseButton = document.createElement("button");
+modalCloseButton.type = "button";
+modalCloseButton.classList.add("close-modal");
+modalCloseButton.setAttribute("aria-label", "Fermer");
+
+// Création de l’icône de fermeture
+const closeIcon = document.createElement("i");
+closeIcon.classList.add("fa-solid", "fa-xmark");
+closeIcon.setAttribute("aria-hidden", "true");
+modalCloseButton.appendChild(closeIcon);
+
+// Création du titre
+const modalTitle = document.createElement("h2");
+modalTitle.id = "modal-title";
+modalTitle.textContent = "Galerie photo";
+
+// Création du conteneur de la galerie et du formulaire
+const modalContent = document.createElement("div");
+modalContent.classList.add("modal-content");
+
+// Assemblage de la modale
+projectsModal.appendChild(modalCloseButton);
+projectsModal.appendChild(modalTitle);
+projectsModal.appendChild(modalContent);
+document.body.appendChild(projectsModal);
 
     function displayModalGallery() {
         modalContent.replaceChildren();
